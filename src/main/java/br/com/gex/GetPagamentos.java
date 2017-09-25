@@ -67,10 +67,14 @@ public class GetPagamentos extends HttpServlet {
             while (resultSet.next()) {
                 int total_rows = resultSet.getMetaData().getColumnCount();
                 JSONObject obj = new JSONObject();
+
                 for (int i = 1; i <= total_rows; i++) {
 
-                    obj.put(resultSet.getMetaData().getColumnLabel(i), resultSet.getObject(i));
-
+                    if (resultSet.getObject(i) == null) {
+                        obj.put(resultSet.getMetaData().getColumnLabel(i), JSONObject.NULL);
+                    } else {
+                        obj.put(resultSet.getMetaData().getColumnLabel(i), resultSet.getObject(i));
+                    }
                 }
                 jsonArray.put(obj);
             }
